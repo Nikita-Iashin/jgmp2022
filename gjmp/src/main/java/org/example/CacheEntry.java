@@ -1,17 +1,12 @@
 package org.example;
 
-/**
- * Cache entries (objects) – simple custom class with one String field. Your cache service should have 2 methods:
- * get and put.
- */
-public class CacheEntry {
-    private String entry;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
-    public String get() {
-        return entry;
-    }
-
-    public void put(String entry) {
-        this.entry = entry;
-    }
+@Getter
+@Setter
+@RequiredArgsConstructor
+class CacheEntry {
+    private String data;
 }
