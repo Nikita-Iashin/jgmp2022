@@ -5,11 +5,11 @@ import org.apache.commons.collections4.map.LRUMap;
 
 import java.util.ArrayList;
 
-public class Cache<K, T> {
+public class CacheJava<K, T> {
     private final long timeToLive;
     private final LRUMap cacheMap;
 
-    public Cache(long timeToLive, final long timerInterval, int maxItems) {
+    public CacheJava(long timeToLive, final long timerInterval, int maxItems) {
         this.timeToLive = timeToLive * 1000;
         cacheMap = new LRUMap(maxItems);
         if (this.timeToLive > 0 && timerInterval > 0) {

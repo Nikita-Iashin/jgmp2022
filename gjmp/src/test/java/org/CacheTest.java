@@ -1,6 +1,10 @@
-package org.cache;
+package org;
 
+import com.google.common.cache.Cache;
 import lombok.SneakyThrows;
+import org.cache.CacheBean;
+import org.cache.CacheGuava;
+import org.cache.CacheJava;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -9,8 +13,26 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class CacheTest {
 
     @Test
+    @SneakyThrows
+    void guavaCacheTest() {
+        Cache<String, CacheBean> cache = CacheGuava.cache;
+
+        cache.put("test1", new CacheBean("test1"));
+        cache.put("test2", new CacheBean("test2"));
+
+        Long initialCacheSize = cache.size();
+
+        cache.invalidate("test1");
+
+        Long sizeAfterRemove = cache.size();
+        assertTrue(initialCacheSize > sizeAfterRemove,
+                String.format("Initial size was %s, after a removal of one item the size become %s",
+                        initialCacheSize, sizeAfterRemove));
+    }
+
+    @Test
     void removeObjectTestWhenMaxSizeIsNotReached() {
-        Cache<String, String> cache = new Cache<>(200, 500, 6);
+        CacheJava<String, String> cache = new CacheJava<>(200, 500, 6);
         cache.put("test1", "test1");
         cache.put("test2", "test2");
 
@@ -24,7 +46,7 @@ public class CacheTest {
 
     @Test
     void checkAutoRemovalWhenReachedMaxSizeTest() {
-        Cache<String, String> cache = new Cache<>(200, 500, 6);
+        CacheJava<String, String> cache = new CacheJava<>(200, 500, 6);
         cache.put("test1", "test1");
         cache.put("test2", "test2");
         cache.put("test3", "test3");
@@ -44,7 +66,7 @@ public class CacheTest {
     @SneakyThrows
     void expiredCacheObjectsTest() {
         int timeToLive = 1;
-        Cache<String, String> cache = new Cache<>(timeToLive, 1, 10);
+        CacheJava<String, String> cache = new CacheJava<>(timeToLive, 1, 10);
         cache.put("test1", "test1");
         cache.put("test2", "test2");
 
@@ -59,7 +81,7 @@ public class CacheTest {
     void objectsCleanupTimeTest() {
         int size = 100_000;
 
-        Cache<String, String> cache = new Cache<>(100, 100, size);
+        CacheJava<String, String> cache = new CacheJava<>(100, 100, size);
         populateCache(cache);
         Thread.sleep(200);
 
@@ -73,7 +95,7 @@ public class CacheTest {
                         size, expectedTimeToCleanInSeconds, finish));
     }
 
-    private void populateCache(Cache<String, String> cache) {
+    private void populateCache(CacheJava<String, String> cache) {
         for (int i = 0; i < cache.size(); i++) {
             String value = Integer.toString(i);
             cache.put(value, value);
