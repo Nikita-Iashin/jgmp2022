@@ -75,20 +75,35 @@ insert into students_subject (student_id, subject_id) values  (2,2);
 
 --Try to set index before inserting test data and after. What was the time? Test data:
   --a. 100K of users
+
+INSERT INTO students(name, surname, phonenumbers, primaryskill)
+SELECT md5(random()::text), md5(random()::text), md5(random()::text), md5(random()::text)
+FROM generate_series(1,100000) id;
   --b. 1K of subjects
+
+INSERT INTO subjects(subjectname, tutor)
+SELECT md5(random()::text), md5(random()::text)
+FROM generate_series(1,1000) id;
   --c. 1 million of marks
+  INSERT INTO exam_results(subject_name, score)
+SELECT md5(random()::text), floor(random() * 5 + 1)::int
+FROM generate_series(1,1000000) id;
   --Test queries:
   --a. Find user by name (exact match)
+select * from students where students.name LIKE 'Bil%';
   --b. Find user by surname (partial match)
+select * from students where students.surname LIKE 'Cl%';
   --c. Find user by phone number (partial match)
+select * from students where students.phonenumbers LIKE '%921%';
   --d. Find user with marks by user surname (partial match)
+SELECT score, student_id FROM exam_results
+LEFT JOIN students s on exam_results.student_id = s.id
+WHERE exam_results.score > 4;
   --Add your investigations to separate document. (1 point)
 
 create index names_students on students USING btree (id);
 create index id_subjects on subjects USING hash (id);
 create index id_students on students_subject (id);
-
---TODO
 
 --  5. Add trigger that will update column updated_datetime to current date in case of updating any of student. (0.3 point)
 
@@ -97,19 +112,13 @@ BEGIN
     UPDATE students SET UpdatedDateTime =now() WHERE PrimarySkill = NEW.PrimarySkill;
     RETURN NEW;
 END; $$
-LANGUAGE plpgsql;
-
-CREATE TRIGGER update_student
-    AFTER INSERT ON students
-    FOR ROW
-    EXECUTE PROCEDURE update_student();
+LANGUAGE plpgsql;CREATE TRIGGER update_student AFTER INSERT ON students FOR ROW EXECUTE PROCEDURE update_student();
 
 -- 6. Add validation on DB level that will check username on special characters
 --(reject student name with next characters '@', '#', '$'). (0.3 point)
 
-alter table students
-    add constraint check_name
-    check (Name ~* '^[^@#$]+$');
+alter table students add constraint check_name
+check(Name ~ * '^[^@#$]+$');
 
 --7. Create snapshot that will contain next data: student name, student surname, subject name, mark
 --(snapshot means that in case of changing some data in source table – your snapshot should not change). (0.3 point)
@@ -119,15 +128,9 @@ alter table students
 --todo
 --10. Create function that will return student at "red zone" (red zone means at least 2 marks <=3). (0.3 point)
 create or replace function redZone21()
-    returns table (name text)
-AS
-$$
-BEGIN
-    RETURN QUERY
-    SELECT s.name FROM students s INNER JOIN exam_results er on s.id = er.student_id;
-END;
-$$
-    LANGUAGE plpgsql;
+returns table(name text)
+AS $$ BEGIN RETURN QUERY SELECT s.name FROM students s INNER JOIN exam_results er on s.id = er.student_id;END;$$
+LANGUAGE plpgsql;
 
 
 
