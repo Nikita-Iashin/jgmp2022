@@ -1,2 +1,0 @@
-test_user /user, /profile, /home
-admin /user, /admin
