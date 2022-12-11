@@ -15,11 +15,13 @@ public class AccessChecker {
     }
 
     public boolean mayAccess(User user, String accessedAvailable) {
-        String access =ServerConfig.getInstance().getAccessLevel(user);
+        String access = ServerConfig.getInstance().getAccessLevel(user);
         if (access != null) {
             return access.equalsIgnoreCase(accessedAvailable);
-        }else {
-                throw new NullPointerException("Not complete User/Access pair");
+        } else {
+            throw new NullPointerException(
+                    String.format("Not complete User/Access pair for a User: %s and the Path %s",
+                            user.getName(), accessedAvailable));
         }
     }
 }

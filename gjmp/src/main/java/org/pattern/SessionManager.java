@@ -3,9 +3,10 @@ package org.pattern;
 public class SessionManager {
     private AccessChecker access = AccessChecker.getInstance();
 
-    public Session createSession(User user, String accessedPath) throws InsufficientRightsException {
+    public boolean createSession(User user, String accessedPath) throws InsufficientRightsException {
         if (access.mayAccess(user, accessedPath)) {
-            return new Session(user);
+            new Session(user);
+            return true;
         } else {
             throw new InsufficientRightsException(user, accessedPath);
         }

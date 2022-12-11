@@ -2,7 +2,6 @@ package org;
 
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
-import org.pattern.AccessChecker;
 import org.pattern.SessionManager;
 import org.pattern.User;
 
@@ -11,29 +10,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AccessManagementTest {
 
-
-    AccessChecker accessChecker = AccessChecker.getInstance();
-    SessionManager sessionManager = new SessionManager();
-
-    @SneakyThrows
     @Test
-    void notCompleteKeyValueTest() {
-        String userName = "user";
-        String resource = "";
-
-        User user = new User(userName);
-
-        NullPointerException thrown = assertThrows(
-                NullPointerException.class,
-                () -> sessionManager.createSession(user, resource),
-                "Not complete user/access pair should throw a NullPointer exception"
-        );
-
-        assertTrue(thrown.getMessage().contentEquals("Not complete User/Access pair"));
-    }
-
-    @Test
-    void userNameIsNotNullOrBlank() {
+    void userNameIsNotNullOrBlankTest() {
         String userName = "";
         IllegalArgumentException thrown = assertThrows(
                 IllegalArgumentException.class,
@@ -42,6 +20,17 @@ public class AccessManagementTest {
         );
         assertTrue(thrown.getMessage().contentEquals("An Empty name provided for the user"));
 
+    }
+
+    @SneakyThrows
+    @Test
+    void happyPathTest() {
+        String userName = "admin";
+        User user = new User(userName);
+        String resource = "/admin";
+        boolean session = new SessionManager().createSession(user, resource);
+
+        assertTrue(session);
     }
 
 

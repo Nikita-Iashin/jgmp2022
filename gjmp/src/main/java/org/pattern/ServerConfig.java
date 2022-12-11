@@ -1,11 +1,10 @@
 package org.pattern;
 
+import lombok.SneakyThrows;
+
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,29 +29,19 @@ public class ServerConfig {
         return instance;
     }
 
-    private Map<String, String> readFile(String filePath) {
+    @SneakyThrows
+    private Map<String, String> readFile(String file) {
         Map<String, String> map = new HashMap<>();
+        InputStream in = ServerConfig.class.getClassLoader().getResourceAsStream(file);
+        BufferedReader br = new BufferedReader(new InputStreamReader(in));
+
         String line;
-        try (BufferedReader reader = new BufferedReader(new FileReader(getFileFromResource(filePath)))) {
-            while ((line = reader.readLine()) != null) {
-                String[] keyValuePair = line.split("\\s+");
-                map.put(keyValuePair[0], keyValuePair[1]);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
+        while ((line = br.readLine()) != null) {
+            System.out.println("read line");
+            String[] keyValue = line.split("\\s+");
+            System.out.println("Key: " + keyValue[0] + " and Value: " + keyValue[1]);
+            map.put(keyValue[0], keyValue[1]);
         }
         return map;
-    }
-
-    private File getFileFromResource(String fileName) throws URISyntaxException {
-        ClassLoader classLoader = getClass().getClassLoader();
-        URL resource = classLoader.getResource(fileName);
-        if (resource == null) {
-            throw new IllegalArgumentException("file not found! " + fileName);
-        } else {
-            return new File(resource.toURI());
-        }
     }
 }
