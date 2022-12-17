@@ -1,4 +1,4 @@
-package com.jgmp2022.jgmp2022.model;
+package com.jgmp2022.jgmp2022.model.user;
 
 import com.jgmp2022.jgmp2022.model.event.Event;
 import lombok.Getter;
