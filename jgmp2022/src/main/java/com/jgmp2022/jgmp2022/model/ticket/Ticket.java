@@ -1,4 +1,4 @@
-package com.jgmp2022.jgmp2022.model;
+package com.jgmp2022.jgmp2022.model.ticket;
 
 import lombok.Getter;
 import lombok.Setter;

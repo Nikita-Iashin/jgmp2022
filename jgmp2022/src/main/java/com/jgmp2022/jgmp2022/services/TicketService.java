@@ -1,6 +1,6 @@
 package com.jgmp2022.jgmp2022.services;
 
-import com.jgmp2022.jgmp2022.model.Ticket;
+import com.jgmp2022.jgmp2022.model.ticket.Ticket;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
 package com.jgmp2022.jgmp2022.services;
 
-import com.jgmp2022.jgmp2022.model.Event;
+import com.jgmp2022.jgmp2022.model.event.Event;
 import com.jgmp2022.jgmp2022.model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

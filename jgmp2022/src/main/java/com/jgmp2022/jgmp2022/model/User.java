@@ -1,9 +1,9 @@
 package com.jgmp2022.jgmp2022.model;
 
+import com.jgmp2022.jgmp2022.model.event.Event;
 import lombok.Getter;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 @Getter
