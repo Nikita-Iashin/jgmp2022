@@ -1,10 +1,8 @@
 package com.jgmp2022.jgmp2022.model.ticket;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class Ticket {
     private String ticketNumber;
     private boolean sold;
