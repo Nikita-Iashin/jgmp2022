@@ -9,12 +9,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class BuyTicketFacadeImpl implements BuyTicketFacade {
 
-    @Autowired
+
     private EventService eventService;
-    @Autowired
+
     private TicketService ticketService;
-    @Autowired
+
     private UserService userService;
+
+    @Autowired
+    public BuyTicketFacadeImpl(EventService eventService, TicketService ticketService, UserService userService) {
+        this.eventService = eventService;
+        this.ticketService = ticketService;
+        this.userService = userService;
+    }
 
     @Override
     public boolean buyTicket(User user, Event event, Ticket ticket) {
