@@ -35,9 +35,6 @@ public class ConSoleTools {
         }
     }
 
-    //It creates m random rows for the i-th table,
-    // where m is an i-th element of M. M is an N-dimensional array predefined by a user of this tool.
-
     private String generateColumns(int quantity) {
         Map<String, String> results = new HashMap<>();
         for (int i = 0; i >= quantity; i++) {
@@ -63,4 +60,10 @@ public class ConSoleTools {
         int randIndex = new Random().nextInt(length);
         return values[randIndex].name();
     }
+
+    //It creates m random rows for the i-th table,
+    // where m is an i-th element of M. M is an N-dimensional array predefined by a user of this tool.
+
+    //It supports the table creation/populating via L concurrent connections
+    // (from different threads or from a few instances of classes running simultaneously).
 }
