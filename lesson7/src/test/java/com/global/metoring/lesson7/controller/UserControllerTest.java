@@ -24,8 +24,7 @@ class UserControllerTest {
         mockMvc
                 .perform(get("http://localhost:8080/users/all"))
                 .andDo(print())
-                .andExpect(status()
-                        .isOk());
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -34,8 +33,7 @@ class UserControllerTest {
         mockMvc
                 .perform(post("http://localhost:8080/users/add"))
                 .andDo(print())
-                .andExpect(status()
-                        .isOk());
+                .andExpect(status().isOk());
     }
 
 }

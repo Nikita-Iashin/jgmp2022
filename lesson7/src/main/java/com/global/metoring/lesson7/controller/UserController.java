@@ -3,7 +3,6 @@ package com.global.metoring.lesson7.controller;
 import com.global.metoring.lesson7.model.User;
 import com.global.metoring.lesson7.model.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(path = "/users")
 public class UserController {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public UserController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @GetMapping("/index")
     public String showUserList(Model model) {
